@@ -1,3 +1,4 @@
+import { useDraggable } from "@dnd-kit/core";
 import { useState } from "react";
 
 const sidebarConfig = [
@@ -14,6 +15,21 @@ const sidebarConfig = [
     items: ["1 Column", "2 Column", "Container", "Divider"],
   },
 ];
+
+const DraggableItem = ({ id }) => {
+  const { attributes, listeners, setNodeRef } = useDraggable({ id });
+
+  return (
+    <li
+      ref={setNodeRef}
+      {...listeners}
+      {...attributes}
+      className="pl-2 py-3 list-disc cursor-move"
+    >
+      {id}
+    </li>
+  );
+};
 
 const Sidebar = () => {
   const [openSection, setOpenSection] = useState("Layouts");
@@ -45,9 +61,7 @@ const Sidebar = () => {
             >
               {section.items.length > 0 ? (
                 section.items.map((item) => (
-                  <li key={item} className="pl-2 py-3 list-disc">
-                    {item}
-                  </li>
+                  <DraggableItem key={item} id={item} />
                 ))
               ) : (
                 <li className="text-gray-500">No items</li>
