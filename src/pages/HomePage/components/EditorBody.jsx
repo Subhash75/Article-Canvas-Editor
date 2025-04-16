@@ -17,14 +17,16 @@ function EditorBody({ items, layoutRef, handleLayoutRearrange }) {
           isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
         }`}
       >
-        {items.map((value, index) =>
-          RenderLayoutComponent({
-            item: value.value,
-            id: value.id,
-            index,
-            handleLayoutRearrange,
-          })
-        )}
+        {items.map((value, index) => (
+          <RenderLayoutComponent
+            key={value.id}
+            index={index}
+            item={value.value}
+            id={value.id}
+            child={value.children}
+            handleLayoutRearrange={handleLayoutRearrange}
+          />
+        ))}
       </div>
     </div>
   );

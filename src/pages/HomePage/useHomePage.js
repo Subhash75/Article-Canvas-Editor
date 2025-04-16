@@ -29,15 +29,37 @@ function useHomePage() {
 
   const handleDragEnd = (event) => {
     const { over, active } = event;
-    console.log({ over, event });
 
     if (over?.id === "editor-body") {
+      //layout drop
       setDroppedItems((prev) => [
         ...prev,
-        { id: Date.now(), value: active.id },
+        { id: Date.now(), value: active.id, children: [] },
       ]);
+    } else if (over?.id.startsWith("layout-")) {
+      //text drop inside layout
+      const id = +over.id.split("-")[1];
+
+      if (typeof id === "number") {
+        setDroppedItems((prev) => {
+          const newItems = prev.map((value) => {
+            if (value.id === id) {
+              return {
+                ...value,
+                children: [{ id: Date.now(), value: active.id }],
+              };
+            } else {
+              return value;
+            }
+          });
+
+          return newItems;
+        });
+      }
     }
   };
+
+  console.log(droppedItems);
 
   const handleConvertToHTML = () => {
     const element = layoutRef.current;
