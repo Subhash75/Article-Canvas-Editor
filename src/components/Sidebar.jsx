@@ -4,11 +4,11 @@ import { useState } from "react";
 const sidebarConfig = [
   {
     title: "Text",
-    items: [],
+    items: ["Headline", "Sub-header", "Body"],
   },
   {
     title: "Media",
-    items: [],
+    items: ["Image", "Video"],
   },
   {
     title: "Layouts",
@@ -47,7 +47,7 @@ const Sidebar = () => {
           <ul className="px-3">
             <li
               onClick={() => toggleSection(section.title)}
-              className="w-full text-sm py-3 font-medium text-[#4B4B4B] border-t border-[#EAEAEA]"
+              className="w-full text-sm py-3 font-medium text-[#4B4B4B] border-t border-[#EAEAEA] cursor-pointer"
             >
               {section.title}
             </li>
