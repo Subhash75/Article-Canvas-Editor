@@ -30,15 +30,19 @@ function useHomePage() {
   const handleDragEnd = (event) => {
     const { over, active } = event;
 
-    if (over?.id === "editor-body") {
+    if (
+      (over?.id === "editor-body" ||
+        ["1 Column", "2 Column", "Container", "Divider"].includes(active.id)) &&
+      !["Headline", "Sub-header", "Body"].includes(active.id)
+    ) {
       //layout drop
       setDroppedItems((prev) => [
         ...prev,
         { id: Date.now(), value: active.id, children: [] },
       ]);
-    } else if (over?.id.startsWith("layout-")) {
+    } else if (over?.id?.startsWith("layout-")) {
       //text drop inside layout
-      const id = +over.id.split("-")[1];
+      const id = +over.id.split("-")?.[1];
 
       if (typeof id === "number") {
         setDroppedItems((prev) => {
@@ -47,6 +51,34 @@ function useHomePage() {
               return {
                 ...value,
                 children: [{ id: Date.now(), value: active.id }],
+              };
+            } else {
+              return value;
+            }
+          });
+
+          return newItems;
+        });
+      }
+    } else if (over?.id?.startsWith("twoColumn")) {
+      const layoutId = +over.id.split("-")?.[1];
+      const columnId = +over.id.split("-")?.[2] - 1;
+
+      if (typeof layoutId === "number" && typeof columnId === "number") {
+        setDroppedItems((prev) => {
+          const newItems = prev.map((value) => {
+            if (value.id === layoutId) {
+              return {
+                ...value,
+                children: {
+                  ...value.children,
+                  [columnId]: [
+                    {
+                      id: Date.now(),
+                      value: active.id,
+                    },
+                  ],
+                },
               };
             } else {
               return value;

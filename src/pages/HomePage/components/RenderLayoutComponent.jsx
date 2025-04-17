@@ -1,6 +1,33 @@
 import { useDroppable } from "@dnd-kit/core";
 import RenderTextComponent from "./RenderTextComponent";
 
+const TwoColumnLayout = ({ layoutId, columnId, child }) => {
+  const { setNodeRef, isOver } = useDroppable({
+    id: `twoColumn-${layoutId}-${columnId}`,
+  });
+
+  return (
+    <div
+      contentEditable={true}
+      suppressContentEditableWarning={true}
+      ref={setNodeRef}
+      className={`flex-1 bg-[#F5FAFF] border border-[#EAEAEA] ${
+        isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
+      }`}
+    >
+      {child.map((value) => {
+        return (
+          <RenderTextComponent
+            id={value.id}
+            value={value.value}
+            key={value.id}
+          />
+        );
+      })}
+    </div>
+  );
+};
+
 const RenderLayoutComponent = ({
   item,
   id,
@@ -52,7 +79,7 @@ const RenderLayoutComponent = ({
       return (
         <div
           key={id}
-          className="my-10 relative flex justify-between gap-4 h-[350px]"
+          className={`my-10 relative flex justify-between gap-4 h-[350px]`}
         >
           <div className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3">
             <p
@@ -69,14 +96,16 @@ const RenderLayoutComponent = ({
             </p>
           </div>
           <div className="absolute inset-0 flex justify-between gap-4">
-            <div
-              contentEditable={true}
-              className="flex-1 bg-[#F5FAFF] border border-[#EAEAEA]"
-            ></div>
-            <div
-              contentEditable={true}
-              className="flex-1 bg-[#F5FAFF] border border-[#EAEAEA]"
-            ></div>
+            <TwoColumnLayout
+              layoutId={id}
+              columnId={1}
+              child={child?.[0] ?? []}
+            />
+            <TwoColumnLayout
+              layoutId={id}
+              columnId={2}
+              child={child?.[1] ?? []}
+            />
           </div>
         </div>
       );
@@ -84,9 +113,12 @@ const RenderLayoutComponent = ({
     case "Container":
       return (
         <div
-          contentEditable={true}
           key={id}
-          className="h-[350px] border border-[#EAEAEA] p-4 my-5 bg-[#F5FAFF] relative"
+          ref={setNodeRef}
+          contentEditable={true}
+          className={`h-[350px] border border-[#EAEAEA] p-4 my-5 bg-[#F5FAFF] relative ${
+            isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
+          }`}
         >
           <div className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3">
             <p
@@ -102,7 +134,17 @@ const RenderLayoutComponent = ({
               D
             </p>
           </div>
-          <div className="absolute inset-0 bg-[#F5FAFF] z-10"></div>
+          <div className="absolute inset-0 bg-[#F5FAFF] z-10  px-3">
+            {child.map((value) => {
+              return (
+                <RenderTextComponent
+                  id={value.id}
+                  value={value.value}
+                  key={value.id}
+                />
+              );
+            })}
+          </div>
         </div>
       );
 

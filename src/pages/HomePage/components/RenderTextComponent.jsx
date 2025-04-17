@@ -1,13 +1,16 @@
 import useToolbar from "../hooks/useToolbar.js";
+import Toolbar from "./Toolbar.jsx";
 
 const RenderTextComponent = ({ id, value }) => {
   const {
     toolbarRef,
     contentRef,
     showToolbar,
+    styles,
     applyStyle,
     handleFocus,
     handleBlur,
+    handleStyleChange,
   } = useToolbar();
 
   switch (value) {
@@ -15,12 +18,17 @@ const RenderTextComponent = ({ id, value }) => {
       return (
         <div
           key={id}
-          className="relative group mb-4"
+          className="relative group h-full"
           onFocus={handleFocus}
           onBlur={handleBlur}
         >
           {showToolbar && (
-            <Toolbar toolbarRef={toolbarRef} applyStyle={applyStyle} />
+            <Toolbar
+              styles={styles}
+              toolbarRef={toolbarRef}
+              applyStyle={applyStyle}
+              handleStyleChange={handleStyleChange}
+            />
           )}
           <h1
             ref={contentRef}
@@ -35,24 +43,56 @@ const RenderTextComponent = ({ id, value }) => {
 
     case "Sub-header":
       return (
-        <h3
+        <div
           key={id}
-          contentEditable={true}
-          className="text-lg font-semibold h-full focus:outline-0 focus:border-0"
+          className="relative group h-full"
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         >
-          Sub-Header Text
-        </h3>
+          {showToolbar && (
+            <Toolbar
+              styles={styles}
+              toolbarRef={toolbarRef}
+              applyStyle={applyStyle}
+              handleStyleChange={handleStyleChange}
+            />
+          )}
+          <h3
+            ref={contentRef}
+            contentEditable={true}
+            suppressContentEditableWarning={true}
+            className="text-lg font-bold h-full focus:outline-none"
+          >
+            Sub-Header Text
+          </h3>
+        </div>
       );
 
     case "Body":
       return (
-        <p
+        <div
           key={id}
-          contentEditable={true}
-          className="text-base h-full focus:outline-0 focus:border-0"
+          className="relative group h-full"
+          onFocus={handleFocus}
+          onBlur={handleBlur}
         >
-          Body Text
-        </p>
+          {showToolbar && (
+            <Toolbar
+              styles={styles}
+              toolbarRef={toolbarRef}
+              applyStyle={applyStyle}
+              handleStyleChange={handleStyleChange}
+            />
+          )}
+          <p
+            ref={contentRef}
+            contentEditable={true}
+            suppressContentEditableWarning={true}
+            className="text-base h-full focus:outline-none"
+          >
+            Body Text
+          </p>
+        </div>
       );
 
     default:
