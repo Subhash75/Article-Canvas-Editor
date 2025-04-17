@@ -35,7 +35,15 @@ const RenderLayoutComponent = ({
             </p>
           </div>
           <div className="absolute inset-0 bg-[#F5FAFF] z-10 px-3">
-            {child.map(RenderTextComponent)}
+            {child.map((value) => {
+              return (
+                <RenderTextComponent
+                  id={value.id}
+                  value={value.value}
+                  key={value.id}
+                />
+              );
+            })}
           </div>
         </div>
       );
