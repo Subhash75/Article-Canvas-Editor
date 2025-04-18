@@ -1,4 +1,5 @@
 import { useDroppable } from "@dnd-kit/core";
+import RenderImageComponent from "./RenderImageComponent";
 import RenderTextComponent from "./RenderTextComponent";
 
 const TwoColumnLayout = ({ layoutId, columnId, child }) => {
@@ -16,11 +17,14 @@ const TwoColumnLayout = ({ layoutId, columnId, child }) => {
       }`}
     >
       {child.map((value) => {
+        if (value.value === "Image") {
+          return <RenderImageComponent key={value.id} />;
+        }
         return (
           <RenderTextComponent
+            key={value.id}
             id={value.id}
             value={value.value}
-            key={value.id}
           />
         );
       })}

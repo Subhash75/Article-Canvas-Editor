@@ -8,7 +8,7 @@ const sidebarConfig = [
   },
   {
     title: "Media",
-    items: ["Image", "Video"],
+    items: ["Image", "Gallery", "Video"],
   },
   {
     title: "Layouts",
