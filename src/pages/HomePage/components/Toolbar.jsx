@@ -1,11 +1,11 @@
 import React from "react";
 import Select from "../../../components/Select";
+import StyleButton from "../../../components/ToolbarButton";
 import {
   availableFontFamilies,
   availableFontSize,
   availableFontUnits,
 } from "../HomePage.constants";
-import StyleButton from "../../../components/ToolbarButton";
 
 function Toolbar({ styles, toolbarRef, applyStyle, handleStyleChange }) {
   return (
@@ -78,6 +78,51 @@ function Toolbar({ styles, toolbarRef, applyStyle, handleStyleChange }) {
           applyStyle={applyStyle}
         >
           X<sub>2</sub>
+        </StyleButton>
+      </div>
+
+      <div className="w-full mt-1 flex justify-center gap-5">
+        <StyleButton
+          styleKey="justifyContent"
+          styleValue="flex-start"
+          applyStyle={applyStyle}
+        >
+          HS
+        </StyleButton>
+        <StyleButton
+          styleKey="justifyContent"
+          styleValue="center"
+          applyStyle={applyStyle}
+        >
+          HM
+        </StyleButton>
+        <StyleButton
+          styleKey="justifyContent"
+          styleValue="flex-end"
+          applyStyle={applyStyle}
+        >
+          HE
+        </StyleButton>
+        <StyleButton
+          styleKey="alignItems"
+          styleValue="flex-start"
+          applyStyle={applyStyle}
+        >
+          VS
+        </StyleButton>
+        <StyleButton
+          styleKey="alignItems"
+          styleValue="center"
+          applyStyle={applyStyle}
+        >
+          VC
+        </StyleButton>
+        <StyleButton
+          styleKey="alignItems"
+          styleValue="flex-end"
+          applyStyle={applyStyle}
+        >
+          VE
         </StyleButton>
       </div>
     </div>

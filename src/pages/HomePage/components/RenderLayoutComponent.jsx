@@ -4,21 +4,19 @@ import RenderImageComponent from "./RenderImageComponent";
 import RenderTextComponent from "./RenderTextComponent";
 import RenderVideoComponent from "./RenderVideoComponent";
 
-const TwoColumnLayout = ({ layoutId, columnId, child }) => {
+const TwoColumnLayout = ({ layoutId, columnId, child, setDroppedItems }) => {
   const { setNodeRef, isOver } = useDroppable({
     id: `twoColumn-${layoutId}-${columnId}`,
   });
 
   return (
     <div
-      // contentEditable={true}
-      // suppressContentEditableWarning={true}
       ref={setNodeRef}
       className={`flex-1 bg-[#F5FAFF] border border-[#EAEAEA] ${
         isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
       }`}
     >
-      {child.map((value) => {
+      {child?.map((value) => {
         if (value.value === "Image") {
           return <RenderImageComponent key={value.id} />;
         } else if (value.value === "Gallery") {
@@ -31,6 +29,10 @@ const TwoColumnLayout = ({ layoutId, columnId, child }) => {
             key={value.id}
             id={value.id}
             value={value.value}
+            layoutId={layoutId}
+            columnId={columnId}
+            layoutType="two-column"
+            setDroppedItems={setDroppedItems}
           />
         );
       })}
@@ -44,6 +46,7 @@ const RenderLayoutComponent = ({
   handleLayoutRearrange,
   index,
   child,
+  setDroppedItems,
 }) => {
   const { setNodeRef, isOver } = useDroppable({ id: `layout-${id}` });
 
@@ -85,6 +88,8 @@ const RenderLayoutComponent = ({
                   id={value.id}
                   value={value.value}
                   key={value.id}
+                  layoutId={id}
+                  setDroppedItems={setDroppedItems}
                 />
               );
             })}
@@ -117,11 +122,13 @@ const RenderLayoutComponent = ({
               layoutId={id}
               columnId={1}
               child={child?.[0] ?? []}
+              setDroppedItems={setDroppedItems}
             />
             <TwoColumnLayout
               layoutId={id}
               columnId={2}
               child={child?.[1] ?? []}
+              setDroppedItems={setDroppedItems}
             />
           </div>
         </div>
@@ -165,6 +172,8 @@ const RenderLayoutComponent = ({
                   id={value.id}
                   value={value.value}
                   key={value.id}
+                  layoutId={id}
+                  setDroppedItems={setDroppedItems}
                 />
               );
             })}

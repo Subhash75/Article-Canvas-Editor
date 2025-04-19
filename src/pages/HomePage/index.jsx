@@ -10,6 +10,7 @@ function HomePage() {
   const {
     droppedItems,
     layoutRef,
+    setDroppedItems,
     handleDragEnd,
     handleConvertToHTML,
     handleLayoutRearrange,
@@ -23,6 +24,7 @@ function HomePage() {
         <ActionButton handleConvertToHTML={handleConvertToHTML} />
         <EditorBody
           items={droppedItems}
+          setDroppedItems={setDroppedItems}
           layoutRef={layoutRef}
           handleLayoutRearrange={handleLayoutRearrange}
         />

@@ -35,6 +35,7 @@ const VideoProperties = ({
           title="YouTube Preview"
           allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
           allowFullScreen
+          referrerpolicy="no-referrer-when-downgrade"
         ></iframe>
       ) : (
         <p className="text-white text-sm">Invalid YouTube URL</p>
@@ -146,6 +147,7 @@ function RenderVideoComponent() {
             title="YouTube video"
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
+            referrerpolicy="no-referrer-when-downgrade"
             className="w-full h-full"
           ></iframe>
         ) : (

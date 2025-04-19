@@ -1,7 +1,12 @@
 import { useDroppable } from "@dnd-kit/core";
 import RenderLayoutComponent from "./RenderLayoutComponent";
 
-function EditorBody({ items, layoutRef, handleLayoutRearrange }) {
+function EditorBody({
+  items,
+  setDroppedItems,
+  layoutRef,
+  handleLayoutRearrange,
+}) {
   const { setNodeRef, isOver } = useDroppable({
     id: "editor-body",
   });
@@ -24,6 +29,7 @@ function EditorBody({ items, layoutRef, handleLayoutRearrange }) {
             item={value.value}
             id={value.id}
             child={value.children}
+            setDroppedItems={setDroppedItems}
             handleLayoutRearrange={handleLayoutRearrange}
           />
         ))}
