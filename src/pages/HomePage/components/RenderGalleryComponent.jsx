@@ -18,7 +18,7 @@ const GalleryProperties = ({
   };
 
   return (
-    <div className="fixed top-20 right-0 bg-white w-[317px] rounded-lg shadow-lg gallery-properties-container">
+    <div className="fixed top-20 right-0 z-20 bg-white w-[317px] rounded-lg shadow-lg gallery-properties-container">
       <div className="flex justify-between px-3 py-5 bg-[#F6F6F6] rounded-tl-lg rounded-tr-lg">
         <h3 className="text-[15px] font-semibold">Gallery Properties</h3>
         <p

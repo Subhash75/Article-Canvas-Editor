@@ -43,7 +43,7 @@ const VideoProperties = ({
   );
 
   return (
-    <div className="fixed top-20 right-0 bg-white w-[317px] rounded-lg shadow-lg video-properties-container">
+    <div className="fixed top-20 right-0 z-20 bg-white w-[317px] rounded-lg shadow-lg video-properties-container">
       <div className="flex justify-between px-3 py-5 bg-[rgb(246,246,246)] rounded-tl-lg rounded-tr-lg">
         <h3 className="text-[15px] font-semibold">Video Properties</h3>
         <p

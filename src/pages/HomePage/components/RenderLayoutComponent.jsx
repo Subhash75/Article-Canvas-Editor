@@ -71,8 +71,15 @@ const RenderLayoutComponent = ({
               D
             </p>
           </div>
-          <div className="absolute inset-0 bg-[#F5FAFF] z-10 px-3">
+          <div className="absolute inset-0 bg-[#F5FAFF]">
             {child.map((value) => {
+              if (value.value === "Image") {
+                return <RenderImageComponent key={value.id} />;
+              } else if (value.value === "Gallery") {
+                return <RenderGalleryComponent key={value.id} />;
+              } else if (value.value === "Video") {
+                return <RenderVideoComponent key={value.id} />;
+              }
               return (
                 <RenderTextComponent
                   id={value.id}
@@ -144,8 +151,15 @@ const RenderLayoutComponent = ({
               D
             </p>
           </div>
-          <div className="absolute inset-0 bg-[#F5FAFF] z-10  px-3">
+          <div className="absolute inset-0 bg-[#F5FAFF] z-10">
             {child.map((value) => {
+              if (value.value === "Image") {
+                return <RenderImageComponent key={value.id} />;
+              } else if (value.value === "Gallery") {
+                return <RenderGalleryComponent key={value.id} />;
+              } else if (value.value === "Video") {
+                return <RenderVideoComponent key={value.id} />;
+              }
               return (
                 <RenderTextComponent
                   id={value.id}
