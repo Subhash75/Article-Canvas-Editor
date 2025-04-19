@@ -1,6 +1,8 @@
 import { useDroppable } from "@dnd-kit/core";
+import RenderGalleryComponent from "./RenderGalleryComponent";
 import RenderImageComponent from "./RenderImageComponent";
 import RenderTextComponent from "./RenderTextComponent";
+import RenderVideoComponent from "./RenderVideoComponent";
 
 const TwoColumnLayout = ({ layoutId, columnId, child }) => {
   const { setNodeRef, isOver } = useDroppable({
@@ -9,8 +11,8 @@ const TwoColumnLayout = ({ layoutId, columnId, child }) => {
 
   return (
     <div
-      contentEditable={true}
-      suppressContentEditableWarning={true}
+      // contentEditable={true}
+      // suppressContentEditableWarning={true}
       ref={setNodeRef}
       className={`flex-1 bg-[#F5FAFF] border border-[#EAEAEA] ${
         isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
@@ -19,6 +21,10 @@ const TwoColumnLayout = ({ layoutId, columnId, child }) => {
       {child.map((value) => {
         if (value.value === "Image") {
           return <RenderImageComponent key={value.id} />;
+        } else if (value.value === "Gallery") {
+          return <RenderGalleryComponent key={value.id} />;
+        } else if (value.value === "Video") {
+          return <RenderVideoComponent key={value.id} />;
         }
         return (
           <RenderTextComponent
@@ -99,7 +105,7 @@ const RenderLayoutComponent = ({
               D
             </p>
           </div>
-          <div className="absolute inset-0 flex justify-between gap-4">
+          <div className="absolute inset-0 z-10 flex justify-between gap-4">
             <TwoColumnLayout
               layoutId={id}
               columnId={1}
