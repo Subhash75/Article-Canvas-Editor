@@ -1,4 +1,10 @@
 import React from "react";
+import {
+  CiTextAlignCenter,
+  CiTextAlignJustify,
+  CiTextAlignLeft,
+  CiTextAlignRight,
+} from "react-icons/ci";
 import Select from "../../../components/Select";
 import StyleButton from "../../../components/ToolbarButton";
 import {
@@ -87,42 +93,44 @@ function Toolbar({ styles, toolbarRef, applyStyle, handleStyleChange }) {
           styleValue="flex-start"
           applyStyle={applyStyle}
         >
-          HS
+          <CiTextAlignLeft size={24} />
         </StyleButton>
         <StyleButton
           styleKey="justifyContent"
           styleValue="center"
           applyStyle={applyStyle}
         >
-          HM
+          <CiTextAlignCenter size={24} />
         </StyleButton>
         <StyleButton
           styleKey="justifyContent"
           styleValue="flex-end"
           applyStyle={applyStyle}
         >
-          HE
+          <CiTextAlignRight size={24} />
         </StyleButton>
         <StyleButton
           styleKey="alignItems"
           styleValue="flex-start"
           applyStyle={applyStyle}
+          className="-mt-3"
         >
-          VS
+          <CiTextAlignJustify size={24} />
         </StyleButton>
         <StyleButton
           styleKey="alignItems"
           styleValue="center"
           applyStyle={applyStyle}
         >
-          VC
+          <CiTextAlignJustify size={24} />
         </StyleButton>
         <StyleButton
           styleKey="alignItems"
           styleValue="flex-end"
           applyStyle={applyStyle}
+          className="mt-3"
         >
-          VE
+          <CiTextAlignJustify size={24} />
         </StyleButton>
       </div>
     </div>
