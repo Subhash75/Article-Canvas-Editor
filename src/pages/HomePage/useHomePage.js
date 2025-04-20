@@ -1,4 +1,5 @@
 import { useRef, useState } from "react";
+import JSZip from "jszip";
 
 async function cloneWithInlineStyles(element) {
   const clone = element.cloneNode(true);
@@ -136,47 +137,48 @@ function useHomePage() {
     }
   };
 
-  console.log(droppedItems);
-
   const handleConvertToHTML = async () => {
     const element = layoutRef.current;
     if (!element) return;
+
     const cloned = await cloneWithInlineStyles(element);
 
-    // Add necessary meta tags and styling for responsive iframes
     const html = `<!DOCTYPE html>
-<html>
-<head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <style>
-    /* Responsive styling for iframes */
-    .iframe-container {
-      position: relative;
-      width: 100%;
-      padding-bottom: 56.25%; /* 16:9 aspect ratio */
-      height: 0;
-    }
-    .iframe-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: 0;
-    }
-  </style>
-</head>
-<body>
-${cloned.outerHTML}
-</body>
-</html>`;
+  <html>
+  <head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <style>
+      .iframe-container {
+        position: relative;
+        width: 100%;
+        padding-bottom: 56.25%;
+        height: 0;
+      }
+      .iframe-container iframe {
+        position: absolute;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        border: 0;
+      }
+    </style>
+  </head>
+  <body>
+  ${cloned.outerHTML}
+  </body>
+  </html>`;
 
-    const blob = new Blob([html], { type: "text/html" });
-    const url = URL.createObjectURL(blob);
+    const zip = new JSZip();
+    zip.file("layout.html", html);
+
+    const content = await zip.generateAsync({ type: "blob" });
+
+    const url = URL.createObjectURL(content);
     const a = document.createElement("a");
     a.href = url;
-    a.download = "layout.html";
+    a.download = "layout.zip";
     a.click();
   };
 

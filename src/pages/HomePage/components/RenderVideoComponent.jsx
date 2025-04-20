@@ -160,12 +160,14 @@ function RenderVideoComponent({
   return (
     <>
       <div
-        className="bg-[#F6F6F6] flex justify-center items-center h-full relative"
+        className={`${
+          videoURL ? "bg-white" : "bg-[#F6F6F6]"
+        } flex justify-center items-center h-full relative`}
         onClick={(e) => handleShowVideoProperties(e, true)}
       >
         {showVideoProperties && (
           <>
-            <div className="bg-white absolute top-0 left-0">
+            <div className="bg-white absolute top-0 left-0  z-20">
               <FaChevronUp
                 size={14}
                 className="cursor-pointer ml-[2px]"
@@ -187,7 +189,7 @@ function RenderVideoComponent({
               />
             </div>
 
-            <div className="bg-white absolute top-0 right-0 flex gap-x-2">
+            <div className="bg-white absolute top-0 right-0 z-20 flex gap-x-2">
               <AiOutlineDrag size={22} className="cursor-pointer" />
 
               <RiDeleteBin6Line
@@ -207,7 +209,7 @@ function RenderVideoComponent({
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             referrerpolicy="no-referrer-when-downgrade"
-            className="w-[90%] mx-auto h-full"
+            className="w-[95%] ml-auto h-full"
           ></iframe>
         ) : (
           <div className="w-full h-full bg-[#F6F6F6] flex justify-center items-center"></div>
