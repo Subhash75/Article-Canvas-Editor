@@ -25,7 +25,7 @@ const TwoColumnLayout = ({
   return (
     <div
       ref={setNodeRef}
-      className={`flex-1 ${
+      className={`flex-1 h-auto ${
         isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
       }  ${
         child.length === 0 ? "bg-[#F5FAFF] border border-[#EAEAEA]" : "bg-white"

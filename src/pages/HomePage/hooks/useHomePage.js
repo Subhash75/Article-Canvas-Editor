@@ -223,6 +223,8 @@ function useHomePage() {
     });
   };
 
+  console.log(droppedItems);
+
   return {
     droppedItems,
     setDroppedItems,
