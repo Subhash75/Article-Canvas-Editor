@@ -5,7 +5,7 @@ import Sidebar from "../../components/Sidebar";
 import ActionButton from "./components/ActionButton";
 import EditorBody from "./components/EditorBody";
 import PreviewModal from "./components/PreviewModal";
-import useHomePage from "./useHomePage";
+import useHomePage from "./hooks/useHomePage";
 
 function HomePage() {
   const {
