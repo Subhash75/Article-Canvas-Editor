@@ -1,4 +1,5 @@
 import { useDroppable } from "@dnd-kit/core";
+import { useEffect, useRef, useState } from "react";
 import RenderGalleryComponent from "./RenderGalleryComponent";
 import RenderImageComponent from "./RenderImageComponent";
 import RenderTextComponent from "./RenderTextComponent";
@@ -49,6 +50,32 @@ const RenderLayoutComponent = ({
   setDroppedItems,
 }) => {
   const { setNodeRef, isOver } = useDroppable({ id: `layout-${id}` });
+  const [isFocused, setIsFocused] = useState(false);
+
+  const layoutRef = useRef(null);
+  const controlRef = useRef(null);
+
+  const handleFocus = () => {
+    setIsFocused(true);
+  };
+
+  useEffect(() => {
+    const handleClickOutside = (e) => {
+      if (
+        layoutRef.current?.contains(e.target) ||
+        controlRef.current?.contains(e.target)
+      ) {
+        return;
+      }
+
+      setIsFocused(false);
+    };
+
+    document.addEventListener("mousedown", handleClickOutside);
+    return () => {
+      document.removeEventListener("mousedown", handleClickOutside);
+    };
+  }, []);
 
   switch (item) {
     case "1 Column":
@@ -56,25 +83,38 @@ const RenderLayoutComponent = ({
         <div
           key={id}
           ref={setNodeRef}
-          className={`h-[77px] bg-[#F5FAFF] border border-[#EAEAEA] p-4 my-10 relative ${
+          onFocus={handleFocus}
+          className={`h-[77px] bg-[#F5FAFF] p-4 my-10 relative ${
             isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
-          }`}
+          } ${child.length === 0 ? "border border-[#EAEAEA]" : ""}`}
         >
-          <div className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3">
-            <p
-              onClick={() => handleLayoutRearrange({ index, type: "move-up" })}
+          {isFocused && (
+            <div
+              ref={controlRef}
+              className="layout-controls absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3 "
             >
-              U
-            </p>
-            <p
-              onClick={() =>
-                handleLayoutRearrange({ index, type: "move-down" })
-              }
-            >
-              D
-            </p>
-          </div>
-          <div className="absolute inset-0 bg-[#F5FAFF]">
+              <p
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-up" })
+                }
+              >
+                U
+              </p>
+              <p
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-down" })
+                }
+              >
+                D
+              </p>
+            </div>
+          )}
+          <div
+            ref={layoutRef}
+            className={`absolute inset-0  ${
+              child.length === 0 ? "bg-[#F5FAFF]" : "bg-white"
+            }`}
+          >
             {child.map((value) => {
               if (value.value === "Image") {
                 return <RenderImageComponent key={value.id} />;
@@ -102,22 +142,33 @@ const RenderLayoutComponent = ({
         <div
           key={id}
           className={`my-10 relative flex justify-between gap-4 h-[350px]`}
+          onFocus={handleFocus}
         >
-          <div className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3">
-            <p
-              onClick={() => handleLayoutRearrange({ index, type: "move-up" })}
+          {isFocused && (
+            <div
+              ref={controlRef}
+              className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3"
             >
-              U
-            </p>
-            <p
-              onClick={() =>
-                handleLayoutRearrange({ index, type: "move-down" })
-              }
-            >
-              D
-            </p>
-          </div>
-          <div className="absolute inset-0 z-10 flex justify-between gap-4">
+              <p
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-up" })
+                }
+              >
+                U
+              </p>
+              <p
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-down" })
+                }
+              >
+                D
+              </p>
+            </div>
+          )}
+          <div
+            ref={layoutRef}
+            className="absolute inset-0 z-10 flex justify-between gap-4"
+          >
             <TwoColumnLayout
               layoutId={id}
               columnId={1}
@@ -140,25 +191,33 @@ const RenderLayoutComponent = ({
           key={id}
           ref={setNodeRef}
           contentEditable={true}
+          onFocus={handleFocus}
           className={`h-[350px] border border-[#EAEAEA] p-4 my-5 bg-[#F5FAFF] relative ${
             isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
           }`}
         >
-          <div className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3">
-            <p
-              onClick={() => handleLayoutRearrange({ index, type: "move-up" })}
+          {isFocused && (
+            <div
+              ref={controlRef}
+              className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3"
             >
-              U
-            </p>
-            <p
-              onClick={() =>
-                handleLayoutRearrange({ index, type: "move-down" })
-              }
-            >
-              D
-            </p>
-          </div>
-          <div className="absolute inset-0 bg-[#F5FAFF] z-10">
+              <p
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-up" })
+                }
+              >
+                U
+              </p>
+              <p
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-down" })
+                }
+              >
+                D
+              </p>
+            </div>
+          )}
+          <div ref={layoutRef} className="absolute inset-0 bg-[#F5FAFF] z-10">
             {child.map((value) => {
               if (value.value === "Image") {
                 return <RenderImageComponent key={value.id} />;
