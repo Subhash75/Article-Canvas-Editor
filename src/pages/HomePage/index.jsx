@@ -12,6 +12,7 @@ function HomePage() {
     droppedItems,
     layoutRef,
     isModalOpen,
+    previewContent,
     handleOpen,
     handleClose,
     setDroppedItems,
@@ -41,15 +42,11 @@ function HomePage() {
         </div>
       </DndContext>
 
-      <PreviewModal isOpen={isModalOpen} onClose={handleClose}>
-        <EditorBody
-          items={droppedItems}
-          setDroppedItems={setDroppedItems}
-          layoutRef={layoutRef}
-          handleLayoutRearrange={handleLayoutRearrange}
-          handleLayoutDelete={handleLayoutDelete}
-        />
-      </PreviewModal>
+      <PreviewModal
+        isOpen={isModalOpen}
+        onClose={handleClose}
+        previewContent={previewContent}
+      />
     </>
   );
 }

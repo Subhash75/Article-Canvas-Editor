@@ -1,6 +1,6 @@
 import React from "react";
 
-function PreviewModal({ isOpen, onClose, children }) {
+function PreviewModal({ isOpen, onClose, previewContent }) {
   if (!isOpen) return null;
 
   return (
@@ -12,7 +12,10 @@ function PreviewModal({ isOpen, onClose, children }) {
             &times;
           </button>
         </div>
-        <div className="p-3 h-auto max-h-[400px] overflow-auto">{children}</div>
+        <div
+          className="p-3 h-auto max-h-[400px] overflow-auto"
+          dangerouslySetInnerHTML={{ __html: previewContent }}
+        ></div>
       </div>
     </div>
   );
