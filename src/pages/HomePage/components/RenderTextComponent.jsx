@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import Select from "../../../components/Select.jsx";
 import { availableFontFamilies } from "../HomePage.constants.js";
 import useToolbar from "../hooks/useToolbar.js";
@@ -8,6 +8,7 @@ const TextProperties = ({
   styles,
   layoutId,
   setDroppedItems,
+  textPropertiesRef,
   layoutType,
   columnId,
   handleStyleChange,
@@ -59,6 +60,7 @@ const TextProperties = ({
 
   return (
     <div
+      ref={textPropertiesRef}
       className={`absolute top-0 right-0 z-20 bg-white w-[317px] rounded-lg shadow-lg text-properties-container-${columnId}`}
       onClick={(e) => e.stopPropagation()}
     >
@@ -160,6 +162,7 @@ const RenderTextComponent = ({
   } = useToolbar();
 
   const [showImageProperties, setShowImageProperties] = useState(true);
+  const textPropertiesRef = useRef(null);
 
   const handleShowImageProperties = (e, open) => {
     e.stopPropagation();
@@ -168,14 +171,19 @@ const RenderTextComponent = ({
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (e.target.closest(`.text-properties-container-${columnId}`)) return;
+      if (
+        textPropertiesRef.current &&
+        textPropertiesRef.current.contains(e.target)
+      ) {
+        return;
+      }
+
       setShowImageProperties(false);
     };
 
-    document.addEventListener("click", handleOutsideClick);
-
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
 
@@ -212,6 +220,7 @@ const RenderTextComponent = ({
             <TextProperties
               styles={styles}
               layoutId={layoutId}
+              textPropertiesRef={textPropertiesRef}
               columnId={columnId}
               layoutType={layoutType}
               setDroppedItems={setDroppedItems}
@@ -254,6 +263,7 @@ const RenderTextComponent = ({
             <TextProperties
               styles={styles}
               layoutId={layoutId}
+              textPropertiesRef={textPropertiesRef}
               columnId={columnId}
               layoutType={layoutType}
               setDroppedItems={setDroppedItems}
@@ -296,6 +306,7 @@ const RenderTextComponent = ({
             <TextProperties
               styles={styles}
               layoutId={layoutId}
+              textPropertiesRef={textPropertiesRef}
               columnId={columnId}
               layoutType={layoutType}
               setDroppedItems={setDroppedItems}

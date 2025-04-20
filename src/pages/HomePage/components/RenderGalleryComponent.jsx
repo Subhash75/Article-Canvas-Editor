@@ -6,6 +6,7 @@ import Select from "../../../components/Select";
 const GalleryProperties = ({
   onImageChange,
   autoplay,
+  galleryPropertiesRef,
   onAutoplayChange,
   handleShowImageProperties,
 }) => {
@@ -18,7 +19,10 @@ const GalleryProperties = ({
   };
 
   return (
-    <div className="fixed top-20 right-0 z-20 bg-white w-[317px] rounded-lg shadow-lg gallery-properties-container">
+    <div
+      ref={galleryPropertiesRef}
+      className="fixed top-20 right-0 z-20 bg-white w-[317px] rounded-lg shadow-lg gallery-properties-container"
+    >
       <div className="flex justify-between px-3 py-5 bg-[#F6F6F6] rounded-tl-lg rounded-tr-lg">
         <h3 className="text-[15px] font-semibold">Gallery Properties</h3>
         <p
@@ -72,8 +76,9 @@ function RenderGalleryComponent() {
   const [selectedImages, setSelectedImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [autoplay, setAutoplay] = useState("Yes");
-
   const [showImageProperties, setShowImageProperties] = useState(true);
+
+  const galleryPropertiesRef = useRef();
 
   const handleShowImageProperties = (e, open) => {
     e.stopPropagation();
@@ -82,14 +87,19 @@ function RenderGalleryComponent() {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (e.target.closest(".gallery-properties-container")) return;
+      if (
+        galleryPropertiesRef.current &&
+        galleryPropertiesRef.current.contains(e.target)
+      ) {
+        return;
+      }
+
       setShowImageProperties(false);
     };
 
-    document.addEventListener("click", handleOutsideClick);
-
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
 
@@ -100,13 +110,13 @@ function RenderGalleryComponent() {
         setCurrentImageIndex((prevIndex) =>
           prevIndex === selectedImages.length - 1 ? 0 : prevIndex + 1
         );
-      }, 2000); // Change the image every 3 seconds
+      }, 2000);
     } else if (autoplay === "No" && interval) {
       clearInterval(interval);
     }
 
-    return () => clearInterval(interval); // Cleanup the interval on component unmount
-  }, [autoplay, selectedImages]); // Trigger autoplay when autoplay or images change
+    return () => clearInterval(interval);
+  }, [autoplay, selectedImages]);
 
   const handleImageChange = (imageUrls) => {
     setSelectedImages((prevImages) => [...prevImages, ...imageUrls]);

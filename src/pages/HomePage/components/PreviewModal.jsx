@@ -12,9 +12,7 @@ function PreviewModal({ isOpen, onClose, children }) {
             &times;
           </button>
         </div>
-        <div className="p-3 h-auto max-h-[400px] overflow-auto pointer-events-none">
-          {children}
-        </div>
+        <div className="p-3 h-auto max-h-[400px] overflow-auto">{children}</div>
       </div>
     </div>
   );

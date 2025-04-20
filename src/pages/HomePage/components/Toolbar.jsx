@@ -11,7 +11,7 @@ function Toolbar({ styles, toolbarRef, applyStyle, handleStyleChange }) {
   return (
     <div
       ref={toolbarRef}
-      className="absolute top-full left-0 bg-white  border rounded px-2 py-1 flex flex-col items-center gap-2 z-20 shadow-md"
+      className="absolute top-3/4 left-0 bg-white  border rounded px-2 py-1 flex flex-col items-center gap-2 z-20 shadow-md"
     >
       <button className="bg-yellow-300 px-1 w-fit">A</button>
 

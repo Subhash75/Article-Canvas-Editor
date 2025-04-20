@@ -19,6 +19,7 @@ function useToolbar() {
   };
 
   const handleFocus = () => {
+    console.log("first");
     setShowToolbar(true);
   };
 

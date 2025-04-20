@@ -16,6 +16,7 @@ const ImageProperties = ({
   onImageSelect,
   link,
   clipPathName,
+  imagePropertiesRef,
   onClipPathChange,
   handleShowImageProperties,
 }) => {
@@ -38,7 +39,10 @@ const ImageProperties = ({
   };
 
   return (
-    <div className="fixed top-20 right-0 bg-white w-[317px] rounded-lg shadow-lg image-properties-container">
+    <div
+      ref={imagePropertiesRef}
+      className="fixed top-20 right-0 bg-white w-[317px] rounded-lg shadow-lg image-properties-container"
+    >
       <div className="flex justify-between px-3 py-5 bg-[#F6F6F6] rounded-tl-lg rounded-tr-lg">
         <h3 className="text-[15px] font-semibold">Image Properties</h3>
         <p
@@ -111,6 +115,7 @@ function RenderImageComponent() {
   const [imageSrc, setImageSrc] = useState("");
   const [clipPathName, setClipPathName] = useState("None");
   const [showImageProperties, setShowImageProperties] = useState(true);
+  const imagePropertiesRef = useRef();
 
   const isRealImage = imageSrc && imageSrc !== PlaceholderImg;
 
@@ -121,14 +126,19 @@ function RenderImageComponent() {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      if (e.target.closest(".image-properties-container")) return;
+      if (
+        imagePropertiesRef.current &&
+        imagePropertiesRef.current.contains(e.target)
+      ) {
+        return;
+      }
+
       setShowImageProperties(false);
     };
 
-    document.addEventListener("click", handleOutsideClick);
-
+    document.addEventListener("mousedown", handleOutsideClick);
     return () => {
-      document.removeEventListener("click", handleOutsideClick);
+      document.removeEventListener("mousedown", handleOutsideClick);
     };
   }, []);
 

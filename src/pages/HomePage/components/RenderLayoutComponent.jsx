@@ -54,6 +54,7 @@ const RenderLayoutComponent = ({
   handleLayoutRearrange,
   handleLayoutDelete,
 }) => {
+  console.log(id);
   const { setNodeRef, isOver } = useDroppable({ id: `layout-${id}` });
   const [isFocused, setIsFocused] = useState(false);
 
@@ -210,7 +211,6 @@ const RenderLayoutComponent = ({
         <div
           key={id}
           ref={setNodeRef}
-          contentEditable={true}
           onFocus={handleFocus}
           className={`h-[350px] border border-[#EAEAEA] p-4 my-5 bg-[#F5FAFF] relative ${
             isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
