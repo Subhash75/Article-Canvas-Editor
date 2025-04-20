@@ -1,5 +1,8 @@
 import { useEffect, useRef, useState } from "react";
 import Select from "../../../components/Select";
+import { FaAngleDown, FaChevronUp } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { AiOutlineDrag } from "react-icons/ai";
 
 const VideoProperties = ({
   tempURL,
@@ -62,7 +65,10 @@ const VideoProperties = ({
       <div className="p-2">
         <div className="flex justify-between items-center px-3 py-2">
           <p className="text-[13px] font-medium">Type</p>
-          <Select options={["Web"]} className="w-[148px] h-[33px]" />
+          <Select
+            options={["Web", "MP4", "Hosted"]}
+            className="w-[148px] h-[33px]"
+          />
         </div>
 
         {tempURL && isValidURL ? (
@@ -95,14 +101,22 @@ const VideoProperties = ({
 
         <div className="flex justify-between items-center px-3 py-2">
           <p className="text-[13px] font-medium">Link</p>
-          <Select options={["None"]} className="w-[148px] h-[33px]" />
+          <Select
+            options={["None", "External URL", "Internal Page"]}
+            className="w-[148px] h-[33px]"
+          />
         </div>
       </div>
     </div>
   );
 };
 
-function RenderVideoComponent() {
+function RenderVideoComponent({
+  id,
+  index,
+  handleLayoutRearrange,
+  handleLayoutDelete,
+}) {
   const [videoURL, setVideoURL] = useState("");
   const [tempURL, setTempURL] = useState("");
   const [showVideoProperties, setShowVideoProperties] = useState(true);
@@ -146,9 +160,44 @@ function RenderVideoComponent() {
   return (
     <>
       <div
-        className="bg-[#F6F6F6] flex justify-center items-center h-full"
+        className="bg-[#F6F6F6] flex justify-center items-center h-full relative"
         onClick={(e) => handleShowVideoProperties(e, true)}
       >
+        {showVideoProperties && (
+          <>
+            <div className="bg-white absolute top-0 left-0">
+              <FaChevronUp
+                size={14}
+                className="cursor-pointer ml-[2px]"
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-up" })
+                }
+              />
+              <FaAngleDown
+                size={18}
+                className="cursor-pointer"
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-down" })
+                }
+              />
+              <RiDeleteBin6Line
+                size={18}
+                className="cursor-pointer"
+                onClick={() => handleLayoutDelete({ id })}
+              />
+            </div>
+
+            <div className="bg-white absolute top-0 right-0 flex gap-x-2">
+              <AiOutlineDrag size={22} className="cursor-pointer" />
+
+              <RiDeleteBin6Line
+                size={18}
+                className="cursor-pointer"
+                onClick={() => handleLayoutDelete({ id })}
+              />
+            </div>
+          </>
+        )}
         {videoURL ? (
           <iframe
             src={`https://www.youtube.com/embed/${getVideoId(
@@ -158,7 +207,7 @@ function RenderVideoComponent() {
             allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
             allowFullScreen
             referrerpolicy="no-referrer-when-downgrade"
-            className="w-full h-full"
+            className="w-[90%] mx-auto h-full"
           ></iframe>
         ) : (
           <div className="w-full h-full bg-[#F6F6F6] flex justify-center items-center"></div>
@@ -169,6 +218,7 @@ function RenderVideoComponent() {
         <VideoProperties
           tempURL={tempURL}
           setTempURL={setTempURL}
+          videoPropertiesRef={videoPropertiesRef}
           onApply={handleApply}
           handleShowVideoProperties={handleShowVideoProperties}
         />

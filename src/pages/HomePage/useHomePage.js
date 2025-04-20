@@ -67,8 +67,6 @@ function useHomePage() {
   const handleDragEnd = (event) => {
     const { over, active } = event;
 
-    console.log({ over, active });
-
     if (
       (over?.id === "editor-body" ||
         ["1 Column", "2 Column", "Container", "Divider"].includes(active.id)) &&

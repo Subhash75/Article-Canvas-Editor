@@ -1,4 +1,8 @@
 import { useEffect, useRef, useState } from "react";
+import { AiOutlineDrag } from "react-icons/ai";
+import { FaAngleDown, FaChevronUp } from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
+import { IoDownloadOutline } from "react-icons/io5";
 import PlaceholderImg from "../../../assets/image-placeholder.png";
 import Select from "../../../components/Select";
 
@@ -41,7 +45,7 @@ const ImageProperties = ({
   return (
     <div
       ref={imagePropertiesRef}
-      className="fixed top-20 right-0 bg-white w-[317px] rounded-lg shadow-lg image-properties-container"
+      className="fixed top-20 right-0 z-20 bg-white w-[317px] rounded-lg shadow-lg image-properties-container"
     >
       <div className="flex justify-between px-3 py-5 bg-[#F6F6F6] rounded-tl-lg rounded-tr-lg">
         <h3 className="text-[15px] font-semibold">Image Properties</h3>
@@ -70,7 +74,7 @@ const ImageProperties = ({
         />
 
         <div className="flex justify-between p-2 border-b">
-          <p>D</p>
+          <IoDownloadOutline size={26} className="cursor-pointer" />
           <button
             onClick={handleButtonClick}
             className="bg-primary w-[102px] h-[28px] rounded-md text-[13px] font-semibold text-white"
@@ -111,7 +115,12 @@ const ImageProperties = ({
   );
 };
 
-function RenderImageComponent() {
+function RenderImageComponent({
+  id,
+  index,
+  handleLayoutRearrange,
+  handleLayoutDelete,
+}) {
   const [imageSrc, setImageSrc] = useState("");
   const [clipPathName, setClipPathName] = useState("None");
   const [showImageProperties, setShowImageProperties] = useState(true);
@@ -124,8 +133,11 @@ function RenderImageComponent() {
     setShowImageProperties(open);
   };
 
+  console.log("first");
+
   useEffect(() => {
     const handleOutsideClick = (e) => {
+      console.log({ e: e.target, imagePropertiesRef });
       if (
         imagePropertiesRef.current &&
         imagePropertiesRef.current.contains(e.target)
@@ -145,9 +157,45 @@ function RenderImageComponent() {
   return (
     <>
       <div
-        className="bg-[#F6F6F6] flex justify-center items-center h-full"
+        className="bg-[#F6F6F6] relative flex justify-center items-center h-full"
         onClick={(e) => handleShowImageProperties(e, true)}
       >
+        {showImageProperties && (
+          <>
+            <div className="bg-white absolute top-0 left-0">
+              <FaChevronUp
+                size={14}
+                className="cursor-pointer ml-[2px]"
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-up" })
+                }
+              />
+              <FaAngleDown
+                size={18}
+                className="cursor-pointer"
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-down" })
+                }
+              />
+              <RiDeleteBin6Line
+                size={18}
+                className="cursor-pointer"
+                onClick={() => handleLayoutDelete({ id })}
+              />
+            </div>
+
+            <div className="bg-white absolute top-0 right-0 flex gap-x-2">
+              <AiOutlineDrag size={22} className="cursor-pointer" />
+
+              <RiDeleteBin6Line
+                size={18}
+                className="cursor-pointer"
+                onClick={() => handleLayoutDelete({ id })}
+              />
+            </div>
+          </>
+        )}
+
         <img
           src={imageSrc || PlaceholderImg}
           alt="image"
@@ -165,6 +213,7 @@ function RenderImageComponent() {
         <ImageProperties
           imageSrc={imageSrc}
           onImageSelect={setImageSrc}
+          imagePropertiesRef={imagePropertiesRef}
           clipPathName={clipPathName}
           onClipPathChange={setClipPathName}
           handleShowImageProperties={handleShowImageProperties}

@@ -1,8 +1,15 @@
 import { useEffect, useRef, useState } from "react";
+import { AiOutlineDrag } from "react-icons/ai";
+import {
+  FaAngleDown,
+  FaAngleLeft,
+  FaAngleRight,
+  FaChevronUp,
+} from "react-icons/fa";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import PlaceholderImg from "../../../assets/image-placeholder.png";
 import Select from "../../../components/Select";
 
-// GalleryProperties Component
 const GalleryProperties = ({
   onImageChange,
   autoplay,
@@ -13,9 +20,9 @@ const GalleryProperties = ({
   const fileInputRef = useRef(null);
 
   const handleImageChange = (e) => {
-    const files = Array.from(e.target.files); // Convert FileList to an array
+    const files = Array.from(e.target.files);
     const imageUrls = files.map((file) => URL.createObjectURL(file));
-    onImageChange(imageUrls); // Call the function passed from the parent to update selected images
+    onImageChange(imageUrls);
   };
 
   return (
@@ -71,8 +78,12 @@ const GalleryProperties = ({
   );
 };
 
-// Parent Component (RenderGalleryComponent)
-function RenderGalleryComponent() {
+function RenderGalleryComponent({
+  id,
+  index,
+  handleLayoutRearrange,
+  handleLayoutDelete,
+}) {
   const [selectedImages, setSelectedImages] = useState([]);
   const [currentImageIndex, setCurrentImageIndex] = useState(0);
   const [autoplay, setAutoplay] = useState("Yes");
@@ -139,6 +150,40 @@ function RenderGalleryComponent() {
       className="relative h-full"
       onClick={(e) => handleShowImageProperties(e, true)}
     >
+      {showImageProperties && (
+        <>
+          <div className="bg-white absolute top-0 left-0">
+            <FaChevronUp
+              size={14}
+              className="cursor-pointer ml-[2px]"
+              onClick={() => handleLayoutRearrange({ index, type: "move-up" })}
+            />
+            <FaAngleDown
+              size={18}
+              className="cursor-pointer"
+              onClick={() =>
+                handleLayoutRearrange({ index, type: "move-down" })
+              }
+            />
+            <RiDeleteBin6Line
+              size={18}
+              className="cursor-pointer"
+              onClick={() => handleLayoutDelete({ id })}
+            />
+          </div>
+
+          <div className="bg-white absolute top-0 right-0 flex gap-x-2">
+            <AiOutlineDrag size={22} className="cursor-pointer" />
+
+            <RiDeleteBin6Line
+              size={18}
+              className="cursor-pointer"
+              onClick={() => handleLayoutDelete({ id })}
+            />
+          </div>
+        </>
+      )}
+
       <div className="bg-[#F6F6F6] flex justify-center items-center h-full">
         {selectedImages.length > 0 ? (
           <div
@@ -161,13 +206,13 @@ function RenderGalleryComponent() {
             onClick={handlePrevClick}
             className="bg-black text-white p-2 rounded-full"
           >
-            L
+            <FaAngleLeft size={20} />
           </button>
           <button
             onClick={handleNextClick}
             className="bg-black text-white p-2 rounded-full"
           >
-            R
+            <FaAngleRight size={20} />
           </button>
         </div>
       )}
@@ -176,6 +221,7 @@ function RenderGalleryComponent() {
         <GalleryProperties
           onImageChange={handleImageChange}
           autoplay={autoplay}
+          galleryPropertiesRef={galleryPropertiesRef}
           onAutoplayChange={setAutoplay}
           handleShowImageProperties={handleShowImageProperties}
         />
