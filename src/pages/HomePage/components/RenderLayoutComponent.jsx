@@ -25,8 +25,10 @@ const TwoColumnLayout = ({
   return (
     <div
       ref={setNodeRef}
-      className={`flex-1 bg-[#F5FAFF] border border-[#EAEAEA] ${
+      className={`flex-1 ${
         isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
+      }  ${
+        child.length === 0 ? "bg-[#F5FAFF] border border-[#EAEAEA]" : "bg-white"
       }`}
     >
       {child?.map((value) => {
@@ -214,42 +216,39 @@ const RenderLayoutComponent = ({
           className={`my-10 relative flex justify-between gap-4 h-[350px]`}
           onFocus={handleFocus}
         >
-          {isFocused ||
-            (child.length === 0 && (
-              <div
-                ref={controlRef}
-                className={`absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3 ${
-                  child.length === 0 ? "bg-[#F5FAFF]" : ""
-                }`}
-              >
-                <FaChevronUp
-                  size={22}
-                  className="cursor-pointer"
-                  onClick={() =>
-                    handleLayoutRearrange({ index, type: "move-up" })
-                  }
-                />
-                <FaAngleDown
-                  size={22}
-                  className="cursor-pointer"
-                  onClick={() =>
-                    handleLayoutRearrange({ index, type: "move-down" })
-                  }
-                />
-                <IoSettingsOutline size={22} className="cursor-pointer" />
-                <AiOutlineDrag size={22} className="cursor-pointer" />
-                <RiDeleteBin6Line
-                  size={22}
-                  className="cursor-pointer"
-                  onClick={() => handleLayoutDelete({ id })}
-                />{" "}
-              </div>
-            ))}
+          {(isFocused || child.length === 0) && (
+            <div
+              ref={controlRef}
+              className={`absolute top-0 -translate-y-1/2 right-10 rounded-lg  w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3 ${
+                child.length === 0 ? "bg-[#F5FAFF]" : ""
+              }`}
+            >
+              <FaChevronUp
+                size={22}
+                className="cursor-pointer"
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-up" })
+                }
+              />
+              <FaAngleDown
+                size={22}
+                className="cursor-pointer"
+                onClick={() =>
+                  handleLayoutRearrange({ index, type: "move-down" })
+                }
+              />
+              <IoSettingsOutline size={22} className="cursor-pointer" />
+              <AiOutlineDrag size={22} className="cursor-pointer" />
+              <RiDeleteBin6Line
+                size={22}
+                className="cursor-pointer"
+                onClick={() => handleLayoutDelete({ id })}
+              />{" "}
+            </div>
+          )}
           <div
             ref={layoutRef}
-            className={`absolute inset-0 flex justify-between gap-4 ${
-              child.length === 0 ? "bg-[#F5FAFF]" : "bg-white"
-            }`}
+            className={`absolute inset-0 flex justify-between gap-4`}
           >
             <TwoColumnLayout
               layoutId={id}

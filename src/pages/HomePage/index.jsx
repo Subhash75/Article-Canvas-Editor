@@ -1,4 +1,4 @@
-import { DndContext } from "@dnd-kit/core";
+import { DndContext, DragOverlay } from "@dnd-kit/core";
 import React from "react";
 import Navbar from "../../components/Navbar";
 import Sidebar from "../../components/Sidebar";
@@ -13,6 +13,8 @@ function HomePage() {
     layoutRef,
     isModalOpen,
     previewContent,
+    activeId,
+    setActiveId,
     handleOpen,
     handleClose,
     setDroppedItems,
@@ -24,7 +26,11 @@ function HomePage() {
 
   return (
     <>
-      <DndContext onDragEnd={handleDragEnd}>
+      <DndContext
+        onDragEnd={handleDragEnd}
+        onDragStart={(event) => setActiveId(event.active.id)}
+        onDragCancel={() => setActiveId(null)}
+      >
         <Navbar />
         <Sidebar />
         <div className="ml-[238px] bg-gray-100 h-[calc(100vh-60px)]">
@@ -40,6 +46,14 @@ function HomePage() {
             handleLayoutDelete={handleLayoutDelete}
           />
         </div>
+
+        <DragOverlay>
+          {activeId ? (
+            <li className="pl-2 py-3 list-disc cursor-move bg-white text-black shadow-md rounded-md">
+              {activeId}
+            </li>
+          ) : null}
+        </DragOverlay>
       </DndContext>
 
       <PreviewModal

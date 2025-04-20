@@ -1,5 +1,5 @@
-import { useRef, useState } from "react";
 import JSZip from "jszip";
+import { useRef, useState } from "react";
 
 async function cloneWithInlineStyles(element) {
   const clone = element.cloneNode(true);
@@ -60,6 +60,7 @@ function useHomePage() {
   const [droppedItems, setDroppedItems] = useState([]);
   const [isModalOpen, setIsModalOpen] = useState(false);
   const [previewContent, setPreviewContent] = useState("");
+  const [activeId, setActiveId] = useState(null);
 
   const layoutRef = useRef(null);
 
@@ -73,6 +74,8 @@ function useHomePage() {
 
   const handleDragEnd = (event) => {
     const { over, active } = event;
+
+    setActiveId(null);
 
     if (
       (over?.id === "editor-body" ||
@@ -226,6 +229,8 @@ function useHomePage() {
     layoutRef,
     isModalOpen,
     previewContent,
+    activeId,
+    setActiveId,
     handleOpen,
     handleClose,
     handleDragEnd,
