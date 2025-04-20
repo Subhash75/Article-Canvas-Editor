@@ -1,5 +1,9 @@
 import { useDroppable } from "@dnd-kit/core";
 import { useEffect, useRef, useState } from "react";
+import { AiOutlineDrag } from "react-icons/ai";
+import { FaAngleDown, FaChevronUp } from "react-icons/fa";
+import { IoSettingsOutline } from "react-icons/io5";
+import { RiDeleteBin6Line } from "react-icons/ri";
 import RenderGalleryComponent from "./RenderGalleryComponent";
 import RenderImageComponent from "./RenderImageComponent";
 import RenderTextComponent from "./RenderTextComponent";
@@ -44,10 +48,11 @@ const TwoColumnLayout = ({ layoutId, columnId, child, setDroppedItems }) => {
 const RenderLayoutComponent = ({
   item,
   id,
-  handleLayoutRearrange,
   index,
   child,
   setDroppedItems,
+  handleLayoutRearrange,
+  handleLayoutDelete,
 }) => {
   const { setNodeRef, isOver } = useDroppable({ id: `layout-${id}` });
   const [isFocused, setIsFocused] = useState(false);
@@ -88,25 +93,32 @@ const RenderLayoutComponent = ({
             isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
           } ${child.length === 0 ? "border border-[#EAEAEA]" : ""}`}
         >
-          {isFocused && (
+          {(isFocused || child.length === 0) && (
             <div
               ref={controlRef}
-              className="layout-controls absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3 "
+              className="layout-controls absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3 "
             >
-              <p
+              <FaChevronUp
+                size={22}
+                className="cursor-pointer"
                 onClick={() =>
                   handleLayoutRearrange({ index, type: "move-up" })
                 }
-              >
-                U
-              </p>
-              <p
+              />
+              <FaAngleDown
+                size={22}
+                className="cursor-pointer"
                 onClick={() =>
                   handleLayoutRearrange({ index, type: "move-down" })
                 }
-              >
-                D
-              </p>
+              />
+              <IoSettingsOutline size={22} className="cursor-pointer" />
+              <AiOutlineDrag size={22} className="cursor-pointer" />
+              <RiDeleteBin6Line
+                size={22}
+                className="cursor-pointer"
+                onClick={() => handleLayoutDelete({ id })}
+              />
             </div>
           )}
           <div
@@ -144,27 +156,35 @@ const RenderLayoutComponent = ({
           className={`my-10 relative flex justify-between gap-4 h-[350px]`}
           onFocus={handleFocus}
         >
-          {isFocused && (
-            <div
-              ref={controlRef}
-              className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3"
-            >
-              <p
-                onClick={() =>
-                  handleLayoutRearrange({ index, type: "move-up" })
-                }
+          {isFocused ||
+            (child.length === 0 && (
+              <div
+                ref={controlRef}
+                className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3"
               >
-                U
-              </p>
-              <p
-                onClick={() =>
-                  handleLayoutRearrange({ index, type: "move-down" })
-                }
-              >
-                D
-              </p>
-            </div>
-          )}
+                <FaChevronUp
+                  size={22}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleLayoutRearrange({ index, type: "move-up" })
+                  }
+                />
+                <FaAngleDown
+                  size={22}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleLayoutRearrange({ index, type: "move-down" })
+                  }
+                />
+                <IoSettingsOutline size={22} className="cursor-pointer" />
+                <AiOutlineDrag size={22} className="cursor-pointer" />
+                <RiDeleteBin6Line
+                  size={22}
+                  className="cursor-pointer"
+                  onClick={() => handleLayoutDelete({ id })}
+                />{" "}
+              </div>
+            ))}
           <div
             ref={layoutRef}
             className="absolute inset-0 z-10 flex justify-between gap-4"
@@ -196,27 +216,35 @@ const RenderLayoutComponent = ({
             isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
           }`}
         >
-          {isFocused && (
-            <div
-              ref={controlRef}
-              className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3"
-            >
-              <p
-                onClick={() =>
-                  handleLayoutRearrange({ index, type: "move-up" })
-                }
+          {isFocused ||
+            (child.length === 0 && (
+              <div
+                ref={controlRef}
+                className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3"
               >
-                U
-              </p>
-              <p
-                onClick={() =>
-                  handleLayoutRearrange({ index, type: "move-down" })
-                }
-              >
-                D
-              </p>
-            </div>
-          )}
+                <FaChevronUp
+                  size={22}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleLayoutRearrange({ index, type: "move-up" })
+                  }
+                />
+                <FaAngleDown
+                  size={22}
+                  className="cursor-pointer"
+                  onClick={() =>
+                    handleLayoutRearrange({ index, type: "move-down" })
+                  }
+                />
+                <IoSettingsOutline size={22} className="cursor-pointer" />
+                <AiOutlineDrag size={22} className="cursor-pointer" />
+                <RiDeleteBin6Line
+                  size={22}
+                  className="cursor-pointer"
+                  onClick={() => handleLayoutDelete({ id })}
+                />
+              </div>
+            ))}
           <div ref={layoutRef} className="absolute inset-0 bg-[#F5FAFF] z-10">
             {child.map((value) => {
               if (value.value === "Image") {
@@ -247,19 +275,25 @@ const RenderLayoutComponent = ({
           className="h-10 mt-10 border-t border-[#EAEAEA] w-full relative"
         >
           <div className="absolute inset-0 bg-white z-10"></div>
-          <div className="absolute top-0 -translate-y-1/2 right-10 rounded-lg w-32 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3">
-            <p
+          <div className="absolute top-0 -translate-y-1/2 right-10 rounded-lg w-28 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3">
+            <FaChevronUp
+              size={22}
+              className="cursor-pointer"
               onClick={() => handleLayoutRearrange({ index, type: "move-up" })}
-            >
-              U
-            </p>
-            <p
+            />
+            <FaAngleDown
+              size={22}
+              className="cursor-pointer"
               onClick={() =>
                 handleLayoutRearrange({ index, type: "move-down" })
               }
-            >
-              D
-            </p>
+            />
+            <AiOutlineDrag size={22} className="cursor-pointer" />
+            <RiDeleteBin6Line
+              size={22}
+              className="cursor-pointer"
+              onClick={() => handleLayoutDelete({ id })}
+            />
           </div>
         </div>
       );

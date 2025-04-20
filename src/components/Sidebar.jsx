@@ -1,18 +1,25 @@
 import { useDraggable } from "@dnd-kit/core";
 import { useState } from "react";
+import { CiTextAlignLeft } from "react-icons/ci";
+import { FaAngleDown, FaChevronUp } from "react-icons/fa";
+import { GoFileMedia } from "react-icons/go";
+import { TbLayoutDashboard } from "react-icons/tb";
 
 const sidebarConfig = [
   {
     title: "Text",
     items: ["Headline", "Sub-header", "Body"],
+    icon: <CiTextAlignLeft size={22} />,
   },
   {
     title: "Media",
     items: ["Image", "Gallery", "Video"],
+    icon: <GoFileMedia size={22} />,
   },
   {
     title: "Layouts",
     items: ["1 Column", "2 Column", "Container", "Divider"],
+    icon: <TbLayoutDashboard size={22} />,
   },
 ];
 
@@ -24,8 +31,15 @@ const DraggableItem = ({ id }) => {
       ref={setNodeRef}
       {...listeners}
       {...attributes}
-      className="pl-2 py-3 list-disc cursor-move"
+      className={`pl-2 py-3 list-disc cursor-move ${
+        id === "Headline"
+          ? "text-[44px] font-semibold truncate w-[85%] relative pl-[18px] -ml-[14px]"
+          : ""
+      }`}
     >
+      {id === "Headline" && (
+        <div className="absolute top-1/2  left-0 bg-black w-[6px] h-[6px] rounded-full"></div>
+      )}
       {id}
     </li>
   );
@@ -47,9 +61,15 @@ const Sidebar = () => {
           <ul className="px-3">
             <li
               onClick={() => toggleSection(section.title)}
-              className="w-full text-sm py-3 font-medium text-[#4B4B4B] border-t border-[#EAEAEA] cursor-pointer"
+              className="w-full flex gap-x-3 items-center text-sm py-3 font-medium text-[#4B4B4B] border-t border-[#EAEAEA] cursor-pointer"
             >
-              {section.title}
+              {section.icon}
+              <p>{section.title}</p>
+              {openSection === section.title ? (
+                <FaChevronUp className="ml-auto" size={16} />
+              ) : (
+                <FaAngleDown className="ml-auto" size={20} />
+              )}
             </li>
           </ul>
 

@@ -198,6 +198,14 @@ ${cloned.outerHTML}
     }
   };
 
+  const handleLayoutDelete = ({ id }) => {
+    setDroppedItems((prev) => {
+      const newItems = prev.filter((value) => value.id !== id);
+
+      return newItems;
+    });
+  };
+
   return {
     droppedItems,
     setDroppedItems,
@@ -205,6 +213,7 @@ ${cloned.outerHTML}
     handleDragEnd,
     handleConvertToHTML,
     handleLayoutRearrange,
+    handleLayoutDelete,
   };
 }
 

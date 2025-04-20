@@ -14,6 +14,7 @@ function HomePage() {
     handleDragEnd,
     handleConvertToHTML,
     handleLayoutRearrange,
+    handleLayoutDelete,
   } = useHomePage();
 
   return (
@@ -27,6 +28,7 @@ function HomePage() {
           setDroppedItems={setDroppedItems}
           layoutRef={layoutRef}
           handleLayoutRearrange={handleLayoutRearrange}
+          handleLayoutDelete={handleLayoutDelete}
         />
       </div>
     </DndContext>

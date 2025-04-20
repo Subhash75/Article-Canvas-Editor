@@ -59,7 +59,7 @@ const TextProperties = ({
 
   return (
     <div
-      className={`fixed top-20 right-0 z-20 bg-white w-[317px] rounded-lg shadow-lg text-properties-container-${columnId}`}
+      className={`absolute top-0 right-0 z-20 bg-white w-[317px] rounded-lg shadow-lg text-properties-container-${columnId}`}
       onClick={(e) => e.stopPropagation()}
     >
       <div className="flex justify-between px-3 py-5 bg-[#F6F6F6] rounded-tl-lg rounded-tr-lg">

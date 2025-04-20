@@ -6,6 +6,7 @@ function EditorBody({
   setDroppedItems,
   layoutRef,
   handleLayoutRearrange,
+  handleLayoutDelete,
 }) {
   const { setNodeRef, isOver } = useDroppable({
     id: "editor-body",
@@ -31,6 +32,7 @@ function EditorBody({
             child={value.children}
             setDroppedItems={setDroppedItems}
             handleLayoutRearrange={handleLayoutRearrange}
+            handleLayoutDelete={handleLayoutDelete}
           />
         ))}
       </div>
