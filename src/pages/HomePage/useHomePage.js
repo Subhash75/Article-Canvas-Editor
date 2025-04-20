@@ -57,8 +57,12 @@ async function convertImageToBase64(sourceImg, clonedImg) {
 }
 function useHomePage() {
   const [droppedItems, setDroppedItems] = useState([]);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const layoutRef = useRef(null);
+
+  const handleOpen = () => setIsModalOpen(true);
+  const handleClose = () => setIsModalOpen(false);
 
   const handleDragEnd = (event) => {
     const { over, active } = event;
@@ -210,6 +214,9 @@ ${cloned.outerHTML}
     droppedItems,
     setDroppedItems,
     layoutRef,
+    isModalOpen,
+    handleOpen,
+    handleClose,
     handleDragEnd,
     handleConvertToHTML,
     handleLayoutRearrange,
