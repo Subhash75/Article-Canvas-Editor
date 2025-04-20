@@ -54,7 +54,6 @@ const RenderLayoutComponent = ({
   handleLayoutRearrange,
   handleLayoutDelete,
 }) => {
-  console.log(id);
   const { setNodeRef, isOver } = useDroppable({ id: `layout-${id}` });
   const [isFocused, setIsFocused] = useState(false);
 
@@ -97,7 +96,9 @@ const RenderLayoutComponent = ({
           {(isFocused || child.length === 0) && (
             <div
               ref={controlRef}
-              className="layout-controls absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3 "
+              className={`layout-controls absolute top-0 -translate-y-1/2 right-10 rounded-lg w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3 ${
+                child.length === 0 ? "bg-[#F5FAFF]" : ""
+              }`}
             >
               <FaChevronUp
                 size={22}
@@ -161,7 +162,9 @@ const RenderLayoutComponent = ({
             (child.length === 0 && (
               <div
                 ref={controlRef}
-                className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3"
+                className={`absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3 ${
+                  child.length === 0 ? "bg-[#F5FAFF]" : ""
+                }`}
               >
                 <FaChevronUp
                   size={22}
@@ -188,7 +191,9 @@ const RenderLayoutComponent = ({
             ))}
           <div
             ref={layoutRef}
-            className="absolute inset-0 z-10 flex justify-between gap-4"
+            className={`absolute inset-0 z-10 flex justify-between gap-4 ${
+              child.length === 0 ? "bg-[#F5FAFF]" : "bg-white"
+            }`}
           >
             <TwoColumnLayout
               layoutId={id}
@@ -212,15 +217,17 @@ const RenderLayoutComponent = ({
           key={id}
           ref={setNodeRef}
           onFocus={handleFocus}
-          className={`h-[350px] border border-[#EAEAEA] p-4 my-5 bg-[#F5FAFF] relative ${
+          className={`h-[350px] p-4 my-5 bg-[#F5FAFF] relative ${
             isOver ? "border-blue-500 bg-blue-50" : "border-gray-300"
-          }`}
+          } ${child.length === 0 ? "border border-[#EAEAEA]" : ""}`}
         >
           {isFocused ||
             (child.length === 0 && (
               <div
                 ref={controlRef}
-                className="absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3"
+                className={`absolute top-0 -translate-y-1/2 right-10 rounded-lg bg-[#F5FAFF] w-36 h-12 border border-[#EAEAEA] border-b-0 flex px-2 gap-x-3 ${
+                  child.length === 0 ? "bg-[#F5FAFF]" : ""
+                }`}
               >
                 <FaChevronUp
                   size={22}
@@ -245,7 +252,12 @@ const RenderLayoutComponent = ({
                 />
               </div>
             ))}
-          <div ref={layoutRef} className="absolute inset-0 bg-[#F5FAFF] z-10">
+          <div
+            ref={layoutRef}
+            className={`absolute inset-0 bg-[#F5FAFF] z-10 ${
+              child.length === 0 ? "bg-[#F5FAFF]" : "bg-white"
+            }`}
+          >
             {child.map((value) => {
               if (value.value === "Image") {
                 return <RenderImageComponent key={value.id} />;
