@@ -2,6 +2,8 @@
 
 A powerful web-based layout designer that lets you visually create article pages using drag-and-drop components, inline editing, and media embedding. Designed for editors, bloggers, and CMS integration.
 
+Live URL: https://article-canvas-editor.netlify.app/
+
 ## 🚀 Features
 
 ### 🧱 Layout Designer
