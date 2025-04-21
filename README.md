@@ -1,4 +1,4 @@
-# 📰 Layout Designer
+# 📰 Article-Canvas-Editor
 
 A powerful web-based layout designer that lets you visually create article pages using drag-and-drop components, inline editing, and media embedding. Designed for editors, bloggers, and CMS integration.
 
